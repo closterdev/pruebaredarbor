@@ -1,4 +1,5 @@
-﻿using Domain.Entity;
+﻿using Domain.Entities;
+using Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infraestructure
@@ -11,6 +12,7 @@ namespace Infraestructure
         }
 
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<User> Users { get; set; }
 
     }
 }
