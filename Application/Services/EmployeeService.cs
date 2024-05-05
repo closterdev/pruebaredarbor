@@ -47,9 +47,25 @@ namespace Application.Services
             }
         }
 
+        public async Task<EmployeeIdOut> GetEmployeeIdAsync(int employeeId)
+        {
+            try
+            {
+                Employee? employee = await _employeeRepository.GetEmployeeByIdAsync(employeeId);
+
+                return employee != null
+                    ? new EmployeeIdOut { Message = "Se consulto el empleado correctamente.", Result = Result.Success, EmployeeItem = employee }
+                    : new EmployeeIdOut { Message = "No se encontro el empleado.", Result = Result.NoRecords };
+            }
+            catch (System.Exception ex)
+            {
+                return new EmployeeIdOut { Message = $"Ha ocurrido un error. {ex.Message}", Result = Result.Error };
+            }
+        }
+
         private static Employee MapDTOToEntity(EmployeeAddIn employeeDTO)
         {
-            var employee = new Employee
+            Employee employeeItem = new Employee
             {
                 CompanyId = employeeDTO.CompanyId,
                 CreatedOn = employeeDTO.CreatedOn,
@@ -67,7 +83,7 @@ namespace Application.Services
                 Username = employeeDTO.Username
             };
 
-            return employee;
+            return employeeItem;
         }
     }
 }

@@ -28,11 +28,11 @@ namespace Infraestructure.Repository
             return await _context.Employees.ToListAsync();
         }
 
-        public async Task AddEmployeeAsync(Employee employ)
+        public async Task AddEmployeeAsync(Employee employee)
         {
             try
             {
-                _context.Employees.Add(employ);
+                _context.Employees.Add(employee);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException ex)
@@ -41,9 +41,9 @@ namespace Infraestructure.Repository
             }
         }
 
-        public async Task UpdateEmployeeAsync(Employee employ)
+        public async Task UpdateEmployeeAsync(Employee employee)
         {
-            _context.Entry(employ).State = EntityState.Modified;
+            _context.Entry(employee).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
 
@@ -57,7 +57,7 @@ namespace Infraestructure.Repository
             }
         }
 
-        public async Task AddEmployeeWithDapperAsync(Employee employ)
+        public async Task AddEmployeeWithDapperAsync(Employee employee)
         {
             try
             {
@@ -69,19 +69,19 @@ namespace Infraestructure.Repository
                         "VALUES (@CompanyId, @CreatedOn, @Email, @Fax, @Name, @Lastlogin, @Password, @PortalId, @RoleId, @StatusId, @Telephone, @Username, @IsDeleted)",
                         new
                         {
-                            employ.CompanyId,
-                            employ.CreatedOn,
-                            employ.Email,
-                            employ.Fax,
-                            employ.Name,
-                            employ.LastLogin,
-                            employ.Password,
-                            employ.PortalId,
-                            employ.RoleId,
-                            employ.StatusId,
-                            employ.Telephone,
-                            employ.Username,
-                            employ.IsDeleted
+                            employee.CompanyId,
+                            employee.CreatedOn,
+                            employee.Email,
+                            employee.Fax,
+                            employee.Name,
+                            employee.LastLogin,
+                            employee.Password,
+                            employee.PortalId,
+                            employee.RoleId,
+                            employee.StatusId,
+                            employee.Telephone,
+                            employee.Username,
+                            employee.IsDeleted
                         });
                 }
             }
@@ -91,7 +91,7 @@ namespace Infraestructure.Repository
             }
         }
 
-        public async Task UpdateEmployeeWithDapperAsync(Employee employ, int id)
+        public async Task UpdateEmployeeWithDapperAsync(Employee employee, int id)
         {
             using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
@@ -104,19 +104,19 @@ namespace Infraestructure.Repository
                 "WHERE EmployeeId = @EmployeeId",
                     new
                     {
-                        employ.EmployeeId,
-                        employ.CompanyId,
-                        employ.Email,
-                        employ.Fax,
-                        employ.Name,
-                        employ.LastLogin,
-                        employ.Password,
-                        employ.PortalId,
-                        employ.RoleId,
-                        employ.StatusId,
-                        employ.Telephone,
-                        employ.UpdatedOn,
-                        employ.Username
+                        employee.EmployeeId,
+                        employee.CompanyId,
+                        employee.Email,
+                        employee.Fax,
+                        employee.Name,
+                        employee.LastLogin,
+                        employee.Password,
+                        employee.PortalId,
+                        employee.RoleId,
+                        employee.StatusId,
+                        employee.Telephone,
+                        employee.UpdatedOn,
+                        employee.Username
                     });
             }
         }

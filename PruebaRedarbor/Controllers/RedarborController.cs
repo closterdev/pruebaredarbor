@@ -27,13 +27,13 @@ namespace PruebaRedarbor.Controllers
         /// <response code="200"><strong>Success</strong><br/>
         /// <ul>
         ///     <li><b>message:</b> Descripcion de la solicitud realizada.</li>
-        ///     <li><b>result:</b> Indice de resultados
+        ///     <li><b>result:</b> Indice de resultados.
         ///         <ul>
         ///             <li>Success => 0</li>
         ///             <li>Error => 1</li>
         ///         </ul>
         ///     </li>
-        ///     <li><b>resultAsString:</b> Descripcion del valor de <i>result</i></li>
+        ///     <li><b>resultAsString:</b> Descripcion del valor de <i>result.</i></li>
         /// </ul>
         /// </response>
         /// <response code="400"><strong>BadRequest</strong></response>
@@ -55,34 +55,60 @@ namespace PruebaRedarbor.Controllers
             }
         }
 
-        // GET api/<RedarborController>/5
         /// <summary>
-        /// Get an item by ID
+        /// Get an Employee item by ID
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>Employee item</returns>
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        /// <summary>
-        /// Add a new item
-        /// </summary>
-        /// <param name="input">Employee object to create</param>
-        /// <returns>Employee item</returns>
-        /// <remarks>POST api/RedarborController</remarks>
+        /// <returns>Object employee item</returns>
+        /// <remarks>GET api/RedarborController/5</remarks>
         /// <response code="200"><strong>Success</strong><br/>
         /// <ul>
         ///     <li><b>message:</b> Descripcion de la solicitud realizada.</li>
-        ///     <li><b>result:</b> Indice de resultados
+        ///     <li><b>result:</b> Indice de resultados.
         ///         <ul>
         ///             <li>Success => 0</li>
         ///             <li>Error => 1</li>
         ///         </ul>
         ///     </li>
-        ///     <li><b>resultAsString:</b> Descripcion del valor de <i>result</i></li>
+        ///     <li><b>resultAsString:</b> Descripcion del valor de <i>result.</i></li>
+        ///     <li><b>employeeItem:</b> Informacion encontrada del empleado.</li>
+        /// </ul>
+        /// </response>
+        /// <response code="400"><strong>BadRequest</strong></response>
+        /// <response code="500"><strong>InternalError</strong></response>
+        [ProducesResponseType(typeof(EmployeeIdOut), 200)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), 500)]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            try
+            {
+                EmployeeIdOut output = await _employee.GetEmployeeIdAsync(id);
+                return Ok(output);
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Error interno al consultar el empleado: {ex.Message}", statusCode: StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        /// <summary>
+        /// Add a new employee item
+        /// </summary>
+        /// <param name="input">Employee object to create</param>
+        /// <returns>Action message</returns>
+        /// <remarks>POST api/RedarborController</remarks>
+        /// <response code="200"><strong>Success</strong><br/>
+        /// <ul>
+        ///     <li><b>message:</b> Descripcion de la solicitud realizada.</li>
+        ///     <li><b>result:</b> Indice de resultados.
+        ///         <ul>
+        ///             <li>Success => 0</li>
+        ///             <li>Error => 1</li>
+        ///         </ul>
+        ///     </li>
+        ///     <li><b>resultAsString:</b> Descripcion del valor de <i>result.</i></li>
         /// </ul>
         /// </response>
         /// <response code="400"><strong>BadRequest</strong></response>

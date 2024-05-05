@@ -6,5 +6,7 @@ namespace Application.Interfaces
     {
         Task<EmployeeAddOut> CreateEmployeeAsync(EmployeeAddIn employeeIn);
         Task<EmployeeListOut> GetEmployeeAsync();
+
+        Task<EmployeeIdOut> GetEmployeeIdAsync(int employeeId);
     }
 }
