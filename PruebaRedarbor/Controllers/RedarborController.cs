@@ -3,17 +3,23 @@ using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace PruebaRedarbor.Controllers
 {
-    [AllowAnonymous]
+    /// <summary>
+    /// Controller by employee manage
+    /// </summary>
     [ApiController]
+    [Authorize]
     [Produces("application/json")]
     [Route("api/[controller]")]
     public class RedarborController : ControllerBase
     {
         private readonly IEmployeeService _employee;
+
+        /// <summary>
+        /// Constructor method
+        /// </summary>
+        /// <param name="employee"></param>
         public RedarborController(IEmployeeService employee)
         {
             _employee = employee;
@@ -23,7 +29,7 @@ namespace PruebaRedarbor.Controllers
         /// Get all employess items
         /// </summary>
         /// <returns>Array of employee items</returns>
-        /// <remarks>GET: api/RedarborController</remarks>
+        /// <remarks>GET: api/Redarbor</remarks>
         /// <response code="200"><strong>Success</strong><br/>
         /// <ul>
         ///     <li><b>message:</b> Descripcion de la solicitud realizada.</li>
@@ -37,9 +43,11 @@ namespace PruebaRedarbor.Controllers
         /// </ul>
         /// </response>
         /// <response code="400"><strong>BadRequest</strong></response>
+        /// <response code="401"><strong>UnAuthorized</strong></response>
         /// <response code="500"><strong>InternalError</strong></response>
         [ProducesResponseType(typeof(EmployeeListOut), 200)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationProblemDetails), 500)]
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -60,7 +68,7 @@ namespace PruebaRedarbor.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Object employee item</returns>
-        /// <remarks>GET api/RedarborController/5</remarks>
+        /// <remarks>GET api/Redarbor/5</remarks>
         /// <response code="200"><strong>Success</strong><br/>
         /// <ul>
         ///     <li><b>message:</b> Descripcion de la solicitud realizada.</li>
@@ -75,9 +83,11 @@ namespace PruebaRedarbor.Controllers
         /// </ul>
         /// </response>
         /// <response code="400"><strong>BadRequest</strong></response>
+        /// <response code="401"><strong>UnAuthorized</strong></response>
         /// <response code="500"><strong>InternalError</strong></response>
         [ProducesResponseType(typeof(EmployeeIdOut), 200)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationProblemDetails), 500)]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
@@ -98,7 +108,7 @@ namespace PruebaRedarbor.Controllers
         /// </summary>
         /// <param name="input">Employee object to create</param>
         /// <returns>Action message</returns>
-        /// <remarks>POST api/RedarborController</remarks>
+        /// <remarks>POST api/Redarbor</remarks>
         /// <response code="200"><strong>Success</strong><br/>
         /// <ul>
         ///     <li><b>message:</b> Descripcion de la solicitud realizada.</li>
@@ -112,9 +122,11 @@ namespace PruebaRedarbor.Controllers
         /// </ul>
         /// </response>
         /// <response code="400"><strong>BadRequest</strong></response>
+        /// <response code="401"><strong>UnAuthorized</strong></response>
         /// <response code="500"><strong>InternalError</strong></response>
         [ProducesResponseType(typeof(EmployeeAddOut), 200)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationProblemDetails), 500)]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] EmployeeAddIn input)
@@ -136,7 +148,7 @@ namespace PruebaRedarbor.Controllers
         /// <param name="id"></param>
         /// <param name="input"></param>
         /// <returns>Action message</returns>
-        /// <remarks>PUT api/RedarborController/5</remarks>
+        /// <remarks>PUT api/Redarbor/5</remarks>
         /// <response code="200"><strong>Success</strong><br/>
         /// <ul>
         ///     <li><b>message:</b> Descripcion de la solicitud realizada.</li>
@@ -150,9 +162,11 @@ namespace PruebaRedarbor.Controllers
         /// </ul>
         /// </response>
         /// <response code="400"><strong>BadRequest</strong></response>
+        /// <response code="401"><strong>UnAuthorized</strong></response>
         /// <response code="500"><strong>InternalError</strong></response>
         [ProducesResponseType(typeof(EmployeeItemOut), 200)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationProblemDetails), 500)]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromRoute] int id, [FromBody] EmployeeItemIn input)
@@ -173,7 +187,7 @@ namespace PruebaRedarbor.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Action message</returns>
-        /// <remarks>DELETE api/RedarborController/5</remarks>
+        /// <remarks>DELETE api/Redarbor/5</remarks>
         /// <response code="200"><strong>Success</strong><br/>
         /// <ul>
         ///     <li><b>message:</b> Descripcion de la solicitud realizada.</li>
@@ -187,9 +201,11 @@ namespace PruebaRedarbor.Controllers
         /// </ul>
         /// </response>
         /// <response code="400"><strong>BadRequest</strong></response>
+        /// <response code="401"><strong>UnAuthorized</strong></response>
         /// <response code="500"><strong>InternalError</strong></response>
         [ProducesResponseType(typeof(EmployeeItemOut), 200)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(ValidationProblemDetails), 500)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)

@@ -1,5 +1,6 @@
 ﻿using Application.Dtos;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PruebaRedarbor.Controllers
@@ -9,10 +10,15 @@ namespace PruebaRedarbor.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
 
+        /// <summary>
+        /// Constructor method
+        /// </summary>
+        /// <param name="authService"></param>
         public AuthController(IAuthService authService)
         {
             _authService = authService;
@@ -23,7 +29,7 @@ namespace PruebaRedarbor.Controllers
         /// </summary>
         /// <param name="credentials"></param>
         /// <returns>Jwt Token Security</returns>
-        /// <remarks>POST: api/AuthController/IssueToken</remarks>
+        /// <remarks>POST: api/Auth/IssueToken</remarks>
         /// <response code="200"><strong>Success</strong><br/>
         /// <ul>
         ///     <li><b>message:</b> Descripcion de la solicitud realizada.</li>
