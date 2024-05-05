@@ -168,14 +168,41 @@ namespace PruebaRedarbor.Controllers
             }
         }
 
-        // DELETE api/<RedarborController>/5
         /// <summary>
         /// Delete an item
         /// </summary>
         /// <param name="id"></param>
+        /// <returns>Action message</returns>
+        /// <remarks>DELETE api/RedarborController/5</remarks>
+        /// <response code="200"><strong>Success</strong><br/>
+        /// <ul>
+        ///     <li><b>message:</b> Descripcion de la solicitud realizada.</li>
+        ///     <li><b>result:</b> Indice de resultados.
+        ///         <ul>
+        ///             <li>Success => 0</li>
+        ///             <li>Error => 1</li>
+        ///         </ul>
+        ///     </li>
+        ///     <li><b>resultAsString:</b> Descripcion del valor de <i>result.</i></li>
+        /// </ul>
+        /// </response>
+        /// <response code="400"><strong>BadRequest</strong></response>
+        /// <response code="500"><strong>InternalError</strong></response>
+        [ProducesResponseType(typeof(EmployeeItemOut), 200)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), 500)]
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
+            try
+            {
+                EmployeeItemOut output = await _employee.DeleteEmployeeAsync(id);
+                return Ok(output);
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Error interno al actualizar el empleado: {ex.Message}", statusCode: StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Domain.Ports
         Task UpdateEmployeeAsync(Employee employee);
         Task DeleteEmployeeAsync(int id);
         Task AddEmployeeWithDapperAsync(Employee employee);
-        Task<bool> UpdateEmployeeWithDapperAsync(Employee employee);
+        Task<bool> UpdateEmployeeWithDapperAsync(Employee employee, int id);
+        Task<bool> DeleteEmployeeWithDapperAsync(int id);
     }
 }

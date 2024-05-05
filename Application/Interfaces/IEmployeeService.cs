@@ -8,5 +8,6 @@ namespace Application.Interfaces
         Task<EmployeeListOut> GetEmployeeAsync();
         Task<EmployeeIdOut> GetEmployeeIdAsync(int employeeId);
         Task<EmployeeItemOut> PutEmployeeAsync(int employeeId, EmployeeItemIn employee);
+        Task<EmployeeItemOut> DeleteEmployeeAsync(int employeeId);
     }
 }

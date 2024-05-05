@@ -91,7 +91,7 @@ namespace Infraestructure.Repository
             }
         }
 
-        public async Task<bool> UpdateEmployeeWithDapperAsync(Employee employee)
+        public async Task<bool> UpdateEmployeeWithDapperAsync(Employee employee, int id)
         {
             using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
@@ -99,7 +99,7 @@ namespace Infraestructure.Repository
 
                 var employeeIdExists = await connection.ExecuteScalarAsync<int>(
                     "SELECT COUNT(*) FROM Employees WHERE EmployeeId = @EmployeeId",
-                    new { employee.EmployeeId });
+                    new { EmployeeId = id });
 
                 if (employeeIdExists == 0)
                 {
@@ -114,7 +114,7 @@ namespace Infraestructure.Repository
                 "WHERE EmployeeId = @EmployeeId",
                     new
                     {
-                        employee.EmployeeId,
+                        EmployeeId = id,
                         employee.CompanyId,
                         employee.Email,
                         employee.Fax,
@@ -124,7 +124,7 @@ namespace Infraestructure.Repository
                         employee.RoleId,
                         employee.StatusId,
                         employee.Telephone,
-                        employee.UpdatedOn,
+                        UpdatedOn = System.DateTime.Now,
                         employee.Username
                     });
 
@@ -132,12 +132,29 @@ namespace Infraestructure.Repository
             }
         }
 
-        public async Task DeleteEmployeeWithDapperAsync(int id)
+        public async Task<bool> DeleteEmployeeWithDapperAsync(int id)
         {
             using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
                 await connection.OpenAsync();
-                await connection.ExecuteAsync("DELETE FROM Employees WHERE EmployeeId = @Id", new { Id = id });
+
+                var employeeIdExists = await connection.ExecuteScalarAsync<int>(
+                    "SELECT COUNT(*) FROM Employees WHERE EmployeeId = @EmployeeId",
+                    new { EmployeeId = id });
+
+                if (employeeIdExists == 0)
+                {
+                    return false;
+                }
+
+                await connection.ExecuteAsync("UPDATE Employees SET IsDeleted = @IsDeleted, DeletedOn = @DeletedOn WHERE EmployeeId = @Id",
+                    new {
+                        Id = id,
+                        DeletedOn = System.DateTime.Now,
+                        IsDeleted = true
+                    });
+
+                return true;
             }
         }
     }

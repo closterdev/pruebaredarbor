@@ -67,11 +67,27 @@ namespace Application.Services
         {
             try
             {
-                Employee employeeUp = MapDTOToEntityUp(employee, employeeId);
-                bool updateOut = await _employeeRepository.UpdateEmployeeWithDapperAsync(employeeUp);
+                Employee employeeUp = MapDTOToEntityUp(employee);
+                bool updateOut = await _employeeRepository.UpdateEmployeeWithDapperAsync(employeeUp, employeeId);
 
                 return updateOut
                     ? new EmployeeItemOut { Message = "Empleado actualizado correctamente.", Result = Result.Success }
+                    : new EmployeeItemOut { Message = "No se encontro el empleado.", Result = Result.NoRecords };
+            }
+            catch (System.Exception ex)
+            {
+                return new EmployeeItemOut { Message = $"Ha ocurrido un error. {ex.Message}", Result = Result.Error };
+            }
+        }
+
+        public async Task<EmployeeItemOut> DeleteEmployeeAsync(int employeeId)
+        {
+            try
+            {
+                bool deleteOut = await _employeeRepository.DeleteEmployeeWithDapperAsync(employeeId);
+
+                return deleteOut
+                    ? new EmployeeItemOut { Message = "Empleado eliminado correctamente.", Result = Result.Success }
                     : new EmployeeItemOut { Message = "No se encontro el empleado.", Result = Result.NoRecords };
             }
             catch (System.Exception ex)
@@ -103,13 +119,12 @@ namespace Application.Services
             return employeeItem;
         }
 
-        private static Employee MapDTOToEntityUp(EmployeeItemIn employeeDTO, int employeeId)
+        private static Employee MapDTOToEntityUp(EmployeeItemIn employeeDTO)
         {
             Employee employeeItem = new Employee
             {
                 CompanyId = employeeDTO.CompanyId,
                 Email = employeeDTO.Email,
-                EmployeeId = employeeId,
                 Fax = employeeDTO.Fax,
                 Name = employeeDTO.Name,
                 Password = employeeDTO.Password,
@@ -117,7 +132,6 @@ namespace Application.Services
                 RoleId = employeeDTO.RoleId,
                 StatusId = employeeDTO.StatusId,
                 Telephone = employeeDTO.Telephone,
-                UpdatedOn = System.DateTime.Now,
                 Username = employeeDTO.Username
             };
 
