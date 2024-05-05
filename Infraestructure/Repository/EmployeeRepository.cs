@@ -91,14 +91,24 @@ namespace Infraestructure.Repository
             }
         }
 
-        public async Task UpdateEmployeeWithDapperAsync(Employee employee, int id)
+        public async Task<bool> UpdateEmployeeWithDapperAsync(Employee employee)
         {
             using (var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
             {
                 await connection.OpenAsync();
+
+                var employeeIdExists = await connection.ExecuteScalarAsync<int>(
+                    "SELECT COUNT(*) FROM Employees WHERE EmployeeId = @EmployeeId",
+                    new { employee.EmployeeId });
+
+                if (employeeIdExists == 0)
+                {
+                    return false;
+                }
+
                 await connection.ExecuteAsync("UPDATE Employees SET " +
                 "CompanyId = @CompanyId, Email = @Email, " +
-                "Fax = @Fax, [Name] = @Name, Lastlogin = @Lastlogin, [Password] = @Password, " +
+                "Fax = @Fax, [Name] = @Name, [Password] = @Password, " +
                 "PortalId = @PortalId, RoleId = @RoleId, StatusId = @StatusId, " +
                 "Telephone = @Telephone, UpdatedOn = @UpdatedOn, Username = @Username " +
                 "WHERE EmployeeId = @EmployeeId",
@@ -109,7 +119,6 @@ namespace Infraestructure.Repository
                         employee.Email,
                         employee.Fax,
                         employee.Name,
-                        employee.LastLogin,
                         employee.Password,
                         employee.PortalId,
                         employee.RoleId,
@@ -118,6 +127,8 @@ namespace Infraestructure.Repository
                         employee.UpdatedOn,
                         employee.Username
                     });
+
+                return true;
             }
         }
 

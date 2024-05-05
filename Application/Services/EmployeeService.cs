@@ -63,6 +63,23 @@ namespace Application.Services
             }
         }
 
+        public async Task<EmployeeItemOut> PutEmployeeAsync(int employeeId, EmployeeItemIn employee)
+        {
+            try
+            {
+                Employee employeeUp = MapDTOToEntityUp(employee, employeeId);
+                bool updateOut = await _employeeRepository.UpdateEmployeeWithDapperAsync(employeeUp);
+
+                return updateOut
+                    ? new EmployeeItemOut { Message = "Empleado actualizado correctamente.", Result = Result.Success }
+                    : new EmployeeItemOut { Message = "No se encontro el empleado.", Result = Result.NoRecords };
+            }
+            catch (System.Exception ex)
+            {
+                return new EmployeeItemOut { Message = $"Ha ocurrido un error. {ex.Message}", Result = Result.Error };
+            }
+        }
+
         private static Employee MapDTOToEntity(EmployeeAddIn employeeDTO)
         {
             Employee employeeItem = new Employee
@@ -80,6 +97,27 @@ namespace Application.Services
                 StatusId = employeeDTO.StatusId,
                 Telephone = employeeDTO.Telephone,
                 UpdatedOn = employeeDTO.UpdatedOn,
+                Username = employeeDTO.Username
+            };
+
+            return employeeItem;
+        }
+
+        private static Employee MapDTOToEntityUp(EmployeeItemIn employeeDTO, int employeeId)
+        {
+            Employee employeeItem = new Employee
+            {
+                CompanyId = employeeDTO.CompanyId,
+                Email = employeeDTO.Email,
+                EmployeeId = employeeId,
+                Fax = employeeDTO.Fax,
+                Name = employeeDTO.Name,
+                Password = employeeDTO.Password,
+                PortalId = employeeDTO.PortalId,
+                RoleId = employeeDTO.RoleId,
+                StatusId = employeeDTO.StatusId,
+                Telephone = employeeDTO.Telephone,
+                UpdatedOn = System.DateTime.Now,
                 Username = employeeDTO.Username
             };
 

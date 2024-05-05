@@ -130,15 +130,42 @@ namespace PruebaRedarbor.Controllers
             }
         }
 
-        // PUT api/<RedarborController>/5
         /// <summary>
         /// Update an existing item
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="value"></param>
+        /// <param name="input"></param>
+        /// <returns>Action message</returns>
+        /// <remarks>PUT api/RedarborController/5</remarks>
+        /// <response code="200"><strong>Success</strong><br/>
+        /// <ul>
+        ///     <li><b>message:</b> Descripcion de la solicitud realizada.</li>
+        ///     <li><b>result:</b> Indice de resultados.
+        ///         <ul>
+        ///             <li>Success => 0</li>
+        ///             <li>Error => 1</li>
+        ///         </ul>
+        ///     </li>
+        ///     <li><b>resultAsString:</b> Descripcion del valor de <i>result.</i></li>
+        /// </ul>
+        /// </response>
+        /// <response code="400"><strong>BadRequest</strong></response>
+        /// <response code="500"><strong>InternalError</strong></response>
+        [ProducesResponseType(typeof(EmployeeItemOut), 200)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), 500)]
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put([FromRoute] int id, [FromBody] EmployeeItemIn input)
         {
+            try
+            {
+                EmployeeItemOut output = await _employee.PutEmployeeAsync(id, input);
+                return Ok(output);
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Error interno al actualizar el empleado: {ex.Message}", statusCode: StatusCodes.Status500InternalServerError);
+            }
         }
 
         // DELETE api/<RedarborController>/5

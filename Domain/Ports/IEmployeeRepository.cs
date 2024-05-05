@@ -6,9 +6,10 @@ namespace Domain.Ports
     {
         Task<Employee?> GetEmployeeByIdAsync(int id);
         Task<IEnumerable<Employee>> GetAllEmployeesAsync();
-        Task AddEmployeeAsync(Employee employ);
-        Task UpdateEmployeeAsync(Employee employ);
+        Task AddEmployeeAsync(Employee employee);
+        Task UpdateEmployeeAsync(Employee employee);
         Task DeleteEmployeeAsync(int id);
-        Task AddEmployeeWithDapperAsync(Employee employ);
+        Task AddEmployeeWithDapperAsync(Employee employee);
+        Task<bool> UpdateEmployeeWithDapperAsync(Employee employee);
     }
 }
