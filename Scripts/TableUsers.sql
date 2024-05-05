@@ -5,3 +5,5 @@ Create table Users(
 	IsActive bit not null default 1,
 	CreatedOn datetime default GETDATE()
 );
+
+INSERT INTO Users (Username, [Password]) VALUES ('javierski', 'amF2aWVyc2tp');
