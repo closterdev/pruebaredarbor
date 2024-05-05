@@ -37,6 +37,9 @@ namespace PruebaRedarbor.Controllers
         ///         <ul>
         ///             <li>Success => 0</li>
         ///             <li>Error => 1</li>
+        ///             <li>NoRecords => 2</li>
+        ///             <li>IsNotActive => 3</li>
+        ///             <li>InvalidPassword => 4</li>
         ///         </ul>
         ///     </li>
         ///     <li><b>resultAsString:</b> Descripcion del valor de <i>result.</i></li>

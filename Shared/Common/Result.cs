@@ -11,6 +11,12 @@ namespace Shared.Common
         Error,
 
         [Display(Name = "NoRecords")]
-        NoRecords
+        NoRecords,
+
+        [Display(Name = "IsNotActive")]
+        IsNotActive,
+
+        [Display(Name = "InvalidPassword")]
+        InvalidPassword
     }
 }
