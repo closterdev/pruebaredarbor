@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Ports;
+using Infraestructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infraestructure.Repository
@@ -18,9 +19,9 @@ namespace Infraestructure.Repository
         //    return await _context.Users.FindAsync(id);
         //}
 
-        //public async Task<User?> GetUserByKeyAsync(string username, string password)
-        //{
-        //    return await _context.Users.Where(u => u.Username == username && u.Password == password).FirstOrDefaultAsync();
-        //}
+        public async Task<User?> GetUserByKeyAsync(User userCredentials)
+        {
+            return await _context.Users.Where(u => u.Username == userCredentials.Username).FirstOrDefaultAsync();
+        }
     }
 }

@@ -98,7 +98,7 @@ namespace Application.Services
 
         private static Employee MapDTOToEntity(EmployeeAddIn employeeDTO)
         {
-            Employee employeeItem = new Employee
+            return new Employee()
             {
                 CompanyId = employeeDTO.CompanyId,
                 CreatedOn = employeeDTO.CreatedOn,
@@ -115,13 +115,11 @@ namespace Application.Services
                 UpdatedOn = employeeDTO.UpdatedOn,
                 Username = employeeDTO.Username
             };
-
-            return employeeItem;
         }
 
         private static Employee MapDTOToEntityUp(EmployeeItemIn employeeDTO)
         {
-            Employee employeeItem = new Employee
+            return new Employee()
             {
                 CompanyId = employeeDTO.CompanyId,
                 Email = employeeDTO.Email,
@@ -134,8 +132,6 @@ namespace Application.Services
                 Telephone = employeeDTO.Telephone,
                 Username = employeeDTO.Username
             };
-
-            return employeeItem;
         }
     }
 }

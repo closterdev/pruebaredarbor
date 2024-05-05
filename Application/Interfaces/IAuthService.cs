@@ -1,7 +1,9 @@
-﻿namespace Application.Interfaces
+﻿using Application.Dtos;
+
+namespace Application.Interfaces
 {
     public interface IAuthService
     {
-        string JwtToken(string username, string password);
+        Task<TokenOut> ValidateUser(TokenIn userCredentials);
     }
 }
