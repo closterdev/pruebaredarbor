@@ -1,5 +1,6 @@
 ﻿using Application.Dtos;
 using Application.Interfaces;
+using AutoMapper;
 using Domain.Entities;
 using Domain.Ports;
 using Microsoft.IdentityModel.Tokens;
@@ -10,10 +11,12 @@ namespace Application.Services
     public class EmployeeService : IEmployeeService
     {
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IMapper _mapper;
 
-        public EmployeeService(IEmployeeRepository employeeRepository)
+        public EmployeeService(IEmployeeRepository employeeRepository, IMapper mapper)
         {
             _employeeRepository = employeeRepository;
+            _mapper = mapper;
         }
 
         public async Task<EmployeeAddOut> CreateEmployeeAsync(EmployeeAddIn employeeIn)
@@ -21,8 +24,8 @@ namespace Application.Services
             try
             {
                 Employee employee = MapDTOToEntity(employeeIn);
-                //await _employeeRepository.AddEmployeeAsync(employee);
                 await _employeeRepository.AddEmployeeWithDapperAsync(employee);
+
                 return new EmployeeAddOut { Message = "Empleado guardado correctamente.", Result = Result.Success };
             }
             catch (System.Exception ex)
@@ -67,7 +70,7 @@ namespace Application.Services
         {
             try
             {
-                Employee employeeUp = MapDTOToEntityUp(employee);
+                Employee employeeUp = MapDTOToEntity(employee);
                 bool updateOut = await _employeeRepository.UpdateEmployeeWithDapperAsync(employeeUp, employeeId);
 
                 return updateOut
@@ -96,42 +99,9 @@ namespace Application.Services
             }
         }
 
-        private static Employee MapDTOToEntity(EmployeeAddIn employeeDTO)
+        private Employee MapDTOToEntity<T>(T employeeDTO)
         {
-            return new Employee()
-            {
-                CompanyId = employeeDTO.CompanyId,
-                CreatedOn = employeeDTO.CreatedOn,
-                DeletedOn = employeeDTO.DeletedOn,
-                Email = employeeDTO.Email,
-                Fax = employeeDTO.Fax,
-                Name = employeeDTO.Name,
-                LastLogin = employeeDTO.LastLogin,
-                Password = employeeDTO.Password,
-                PortalId = employeeDTO.PortalId,
-                RoleId = employeeDTO.RoleId,
-                StatusId = employeeDTO.StatusId,
-                Telephone = employeeDTO.Telephone,
-                UpdatedOn = employeeDTO.UpdatedOn,
-                Username = employeeDTO.Username
-            };
-        }
-
-        private static Employee MapDTOToEntityUp(EmployeeItemIn employeeDTO)
-        {
-            return new Employee()
-            {
-                CompanyId = employeeDTO.CompanyId,
-                Email = employeeDTO.Email,
-                Fax = employeeDTO.Fax,
-                Name = employeeDTO.Name,
-                Password = employeeDTO.Password,
-                PortalId = employeeDTO.PortalId,
-                RoleId = employeeDTO.RoleId,
-                StatusId = employeeDTO.StatusId,
-                Telephone = employeeDTO.Telephone,
-                Username = employeeDTO.Username
-            };
+            return _mapper.Map<T, Employee>(employeeDTO);
         }
     }
 }

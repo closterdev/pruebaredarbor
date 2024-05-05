@@ -125,7 +125,7 @@ namespace Infraestructure.Repository
                         employee.RoleId,
                         employee.StatusId,
                         employee.Telephone,
-                        UpdatedOn = System.DateTime.Now,
+                        UpdatedOn = DateTime.Now,
                         employee.Username
                     });
 

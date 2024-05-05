@@ -1,5 +1,6 @@
 using Application.Interfaces;
 using Application.Services;
+using Application.Tools;
 using Domain.Ports;
 using Infraestructure.Data;
 using Infraestructure.Repository;
@@ -18,7 +19,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
         Title = "RedarborAPI",
@@ -64,6 +65,7 @@ builder.Services.AddSwaggerGen(options =>
         });
 });
 
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
