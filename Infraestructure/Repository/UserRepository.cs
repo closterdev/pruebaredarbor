@@ -18,9 +18,9 @@ namespace Infraestructure.Repository
         //    return await _context.Users.FindAsync(id);
         //}
 
-        public async Task<User?> GetUserByKeyAsync(string username, string password)
-        {
-            return await _context.Users.Where(u => u.Username == username && u.Password == password).FirstOrDefaultAsync();
-        }
+        //public async Task<User?> GetUserByKeyAsync(string username, string password)
+        //{
+        //    return await _context.Users.Where(u => u.Username == username && u.Password == password).FirstOrDefaultAsync();
+        //}
     }
 }

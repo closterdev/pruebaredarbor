@@ -1,5 +1,5 @@
-﻿using Application.Interfaces;
-using Domain.Dto;
+﻿using Application.Dtos;
+using Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PruebaRedarbor.Controllers
@@ -24,7 +24,7 @@ namespace PruebaRedarbor.Controllers
         /// <param name="credentials"></param>
         /// <returns></returns>
         [HttpPost("Authenticate")]
-        public IActionResult Generate([FromBody] UserCredentials credentials)
+        public async Task<IActionResult> Generate([FromBody] UserCredentials credentials)
         {
             try
             {

@@ -1,4 +1,4 @@
-﻿namespace Domain.Dto
+﻿namespace Application.Dtos
 {
     public class UserCredentials
     {
