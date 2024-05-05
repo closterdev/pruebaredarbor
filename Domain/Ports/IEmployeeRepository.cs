@@ -1,4 +1,4 @@
-﻿using Domain.Entity;
+﻿using Domain.Entities;
 
 namespace Domain.Ports
 {
@@ -9,5 +9,6 @@ namespace Domain.Ports
         Task AddEmployeeAsync(Employee employ);
         Task UpdateEmployeeAsync(Employee employ);
         Task DeleteEmployeeAsync(int id);
+        Task AddEmployeeWithDapperAsync(Employee employ);
     }
 }
