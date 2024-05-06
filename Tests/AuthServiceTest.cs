@@ -53,7 +53,7 @@ namespace Tests
         {
             // Arrange
             var userCredentials = new TokenIn { Username = "jmartinez1", Password = "password" };
-            _userRepositoryMock.Setup(repo => repo.GetUserByKeyAsync(It.IsAny<User>())).ReturnsAsync((User)null);
+            _userRepositoryMock.Setup(repo => repo.GetUserByKeyAsync(It.IsAny<User>())).ReturnsAsync((User?)null);
 
             // Act
             var result = await _authService.ValidateUser(userCredentials);

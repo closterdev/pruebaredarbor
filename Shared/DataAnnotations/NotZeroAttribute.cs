@@ -9,7 +9,6 @@ namespace Shared.DataAnnotations
         {
             if (value is int intValue && intValue == 0)
             {
-                //return new ValidationResult("El valor no puede ser cero.");
                 return new ValidationResult(ErrorMessage);
             }
 

@@ -211,7 +211,7 @@ namespace Tests
             // Arrange
             int employeeId = 2;
             _employeeRepositoryMock.Setup(repo => repo.GetEmployeeByIdAsync(employeeId))
-                                   .ReturnsAsync((Employee)null);
+                                   .ReturnsAsync((Employee?)null);
 
             // Act
             var result = await _employeeService.GetEmployeeIdAsync(employeeId);
