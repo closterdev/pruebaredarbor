@@ -11,9 +11,9 @@ namespace Tests
 {
     public class AuthServiceTest
     {
-        private Mock<IUserRepository> _userRepositoryMock;
-        private Mock<ITokenService> _tokenServiceMock;
-        private Mock<IConfiguration> _configurationMock;
+        private readonly Mock<IUserRepository> _userRepositoryMock;
+        private readonly Mock<ITokenService> _tokenServiceMock;
+        private readonly Mock<IConfiguration> _configurationMock;
         private readonly AuthService _authService;
 
         public AuthServiceTest()
